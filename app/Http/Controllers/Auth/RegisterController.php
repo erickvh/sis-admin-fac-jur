@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Persona;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -47,10 +51,9 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $data['email'] = strtolower($data['email']);
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|string|email|min:18|max:18|unique:users|regex:/^[a-zA-Z]{2}[78901]{1}[0-9]{4}@ues.edu.sv$/',
         ]);
     }
 
@@ -62,10 +65,39 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        $correo = strtolower($data['email']);
+        $carnet = substr($correo, 0, 7);
+
+        $persona = Persona::create([
+            'carnet' => $carnet,
         ]);
+        $usuario = User::create([
+          'email' => $correo,
+          'personaId' => $persona->id,
+        ]);
+
+        $dates = array('token' => $usuario->token);
+        $this->Email($dates, $correo);
+
+        return $usuario;
+    }
+
+    protected function Email($dates, $email)
+    {
+        Mail::send('emails.confirmation', $dates, function($message) use ($email) {
+            $message->subject('Valida tu cuenta Estudiantil UES');
+            $message->to($email);
+            $message->from('prueba.jurisprudencia.ues@gmail.com', 'Secretaría Jurisprudencia');
+        });
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        event(new Registered($user = $this->create($request->all())));
+
+
+
+        return back()->with('status', 'Revisa la bandeja de entrada o la bandeja de spam de tu Correo Institucional.');
     }
 }

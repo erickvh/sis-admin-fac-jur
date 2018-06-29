@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return 'nada aqui';
+    return view('welcome');
 });
 
 Auth::routes();
