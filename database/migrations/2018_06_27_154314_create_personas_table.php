@@ -17,11 +17,11 @@ class CreatePersonasTable extends Migration
             $table->increments('id');
             $table->char('carnet', 7)->nullable();
             $table->char('dui', 10)->nullable();
-            $table->string('nombre', 60)->nullable();
-            $table->string('apellido', 60)->nullable();
+            $table->string('nombre', 60);
+            $table->string('apellido', 60);
             $table->boolean('becado')->default(0);
-            $table->date('fechaNacimiento')->nullable();
-            $table->char('sexo', 1)->nullable();
+            $table->date('fechaNacimiento');
+            $table->char('sexo', 1);
 
             $table->integer('carreraId')->unsigned()->nullable();
             $table->foreign('carreraId')->references('id')->on('Carreras');
