@@ -15,8 +15,8 @@ class CreateDetalleSolicitudMateria extends Migration
     {
         Schema::create('DetalleSolicitudMateria', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('grupoActual', 4);
-            $table->char('grupoDeseado', 4);
+            $table->char('grupoActual', 4)->nullable();
+            $table->char('grupoDeseado', 4)->nullable();
             $table->integer('matricula')->nullable();
 
             $table->integer('materiaId')->unsigned();

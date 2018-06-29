@@ -129,7 +129,78 @@ class SolicitudEstudianteController extends Controller
 
 
     public function inscripcionStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
+            'ciclo' => 'required|max:1|min:1|regex:/^[12]$/',
+            'anio' => 'required|numeric|min:2018|max:2019',
+            'materia1' => 'required|numeric|min:1',
+            'materia2' => 'numeric',
+            'materia3' => 'numeric',
+            'materia4' => 'numeric',
+            'anexo' => 'required|max:2018',
+            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        ]);
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => 3,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->telefono = $request['telefono'];
+        $detalle->ciclo = $request['ciclo'];
+        $detalle->anio = $request['anio'];
+        $detalle->justificacion = $request['justificacion'];
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+
+        $materia = Materia::find($request['materia1']);
+        $pivote = new DetalleSolicitudMateria();
+        $pivote->detalleSolicitudId = $detalle->id;
+        $pivote->materiaId = $materia->id;
+        $pivote->save();
+
+        if($request['materia2'] != 0) {
+            $materia2 = Materia::find($request['materia2']);
+            $pivote = new DetalleSolicitudMateria();
+            $pivote->detalleSolicitudId = $detalle->id;
+            $pivote->materiaId = $materia2->id;
+            $pivote->save();
+        }
+        if($request['materia3'] != 0) {
+            $materia3 = Materia::find($request['materia3']);
+            $pivote = new DetalleSolicitudMateria();
+            $pivote->detalleSolicitudId = $detalle->id;
+            $pivote->materiaId = $materia3->id;
+            $pivote->save();
+        }
+        if($request['materia4'] != 0) {
+            $materia4 = Materia::find($request['materia4']);
+            $pivote = new DetalleSolicitudMateria();
+            $pivote->detalleSolicitudId = $detalle->id;
+            $pivote->materiaId = $materia4->id;
+            $pivote->save();
+        }
+
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        $materias = $user->persona->carrera->materias;
+        return redirect('estudiante/inscripcion-extemporanea/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
 
 
