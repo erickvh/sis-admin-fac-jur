@@ -11,7 +11,7 @@ class SolicitudEstudianteController extends Controller
      */
 
     public function cambioGrupoCrear(){
-        return 'aqui debe ir formulario cambio grupo';
+        return view('estudiante.cambio-grupo');
     }
 
 
@@ -25,18 +25,18 @@ class SolicitudEstudianteController extends Controller
      * CONTRALADORES PETICIONES DENUNCIA
      */
     public function denunciaCrear(){
-        return 'aqui debe ir formulario denuncia';
+        return view('estudiante.denuncia');
     }
 
 
     public function denunciaStore(Request $request){
-        return 'proceso de data';
+        return 'proceso data';
     }
     /**
      *CONTROLADORES PETICIONES INSCRIPCION
      */
     public function inscripcionCrear(){
-        return 'aqui debe ir formulario inscripcion extemporanea';
+        return view('estudiante.inscripcion-extemporanea');
     }
 
 
@@ -44,35 +44,35 @@ class SolicitudEstudianteController extends Controller
         return 'proceso de data';
     }
 
-    
+
     /**
      *CONTROLADORES PETICIONES MEMORIA SOCIAL CREAR
      */
     public function memoriaSocialCrear(){
-        return 'aqui debe ir formulario memoria social';
+        return view('estudiante.memoria');
     }
 
 
     public function memoriaSocialStore(Request $request){
         return 'proceso de data';
     }
-   
+
     /**
      * CONTROLADORES PETICIONES PETICIONES ESPECIALES
      */
     public function peticionEspecialCrear(){
-        return 'aqui debe ir formulario peticiones especiales';
+        return view('estudiante.peticiones-especiales');
     }
 
 
     public function peticionEspecialStore(Request $request){
         return 'proceso de data';
-    }        
+    }
     /**
      *CONTROLADORES PETICIONES PRORRORAGRA EGRESADO
      */
     public function prorrogaEgresadoCrear(){
-        return 'aqui debe ir formulario prorroga egresado';
+        return view('estudiante.prorroga-egresado');
     }
 
 
@@ -81,48 +81,48 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    
+
     /**
      * CONTROLADORES PETICIONES RETIRO CICLO
      */
     public function retiroCicloCrear(){
-        return 'aqui debe ir formulario retiro ciclo';
+        return view('estudiante.retiro-ciclo');
     }
 
 
     public function retiroCicloStore(Request $request){
         return 'proceso de data';
-    }    
+    }
 
     /**
      * CONTROLADORES PETICIONES RETIRO MATERIA
      */
     public function retiroMateriaCrear(){
-        return 'aqui debe ir formulario retiro materia';
+        return view('estudiante.retiro-materia');
     }
 
 
     public function retiroMateriaStore(Request $request){
         return 'proceso de data';
-    }    
+    }
 
-    
+
 
     /**
      * CONTROLADORES CONSULTA ESTUDIANTE
      */
     public function consultaIndex(){
-        return 'aqui debe desplegarse la consulta de peticiones hechas';
+        return view('estudiante.consulta');
     }
 
 
     public function consultaShow($id){
-        return 'aqui debe ir la peticion selecion '.$id;
-    }        
+        return view("estudiante.consulta-show",["id"=>$id]);
+    }
 
 
     /**
-     * 
+     *
      */
 
 }

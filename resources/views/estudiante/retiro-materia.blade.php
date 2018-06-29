@@ -1,8 +1,8 @@
 @extends("estudiante.principal")
 
 @section('content')
-<h1>Formulario inscripción extemporanea</h1>
-<form action="{{route('inscripcion-extemporanea.store')}}" method="POST">
+<h1>Formulario retiro materia</h1>
+<form action="{{route('retiro-materia.store')}}" method="POST">
     {{csrf_field()}}
         <div class="form-group">
           <label for="nombre">Nombre completo</label>

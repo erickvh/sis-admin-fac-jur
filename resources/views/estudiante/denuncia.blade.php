@@ -1,6 +1,7 @@
 @extends("estudiante.principal")
 
 @section('content')
+<h1>Formulario de denuncias</h1>
 <form action="{{route('denuncia.store')}}" method="POST">
 {{csrf_field()}}
     <div class="form-group">

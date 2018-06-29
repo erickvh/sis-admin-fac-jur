@@ -1,8 +1,8 @@
 @extends("estudiante.principal")
 
 @section('content')
-<h1>Formulario inscripción extemporanea</h1>
-<form action="{{route('inscripcion-extemporanea.store')}}" method="POST">
+<h1>Formulario retiro ciclo</h1>
+<form action="{{route('retiro-ciclo.store')}}" method="POST">
     {{csrf_field()}}
         <div class="form-group">
           <label for="nombre">Nombre completo</label>
@@ -44,48 +44,7 @@
             </div>
           </div>
 
-          <div class="form-group">
-              <div class="form-row">
 
-                <div class="col-md-3">
-                  <label for="materia">Materia</label>
-                  <select class="form-control" name="materia1">
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label for="materia">Materia</label>
-                  <select class="form-control" name="materia2">
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label for="materia">Materia</label>
-                  <select class="form-control" name="materia3">
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                  </select>
-                </div>
-
-                                  <div class="col-md-3">
-                                    <label for="materia">Materia</label>
-                                    <select class="form-control" name="materia4">
-                                      <option value="">a</option>
-                                      <option value="">a</option>
-                                      <option value="">a</option>
-                                      <option value="">a</option>
-                                    </select>
-                                  </div>
-              </div>
-            </div>
             <div class="form-group">
                     <label for="exampleInputFile">Anexe su archivo</label>
                     <input type="file" name="anexo" class="form-control-file" id="anexo" aria-describedby="fileHelp">

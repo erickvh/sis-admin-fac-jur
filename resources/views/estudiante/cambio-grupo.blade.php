@@ -39,7 +39,7 @@
       </div>
       <div class="form-group">
           <div class="form-row">
-            
+
             <div class="col-md-4">
               <label for="grupo">GT/GD/GL</label>
               <select class="form-control" name="tipoGrupo">
@@ -63,7 +63,7 @@
             <textarea class="form-control" id="justificacion" name="justificacion" rows="3"></textarea>
           </div>
     <button type="submit" class="btn btn-primary btn-block">Enviar Petición</a>
-    
+
   </form>
 
 @endsection

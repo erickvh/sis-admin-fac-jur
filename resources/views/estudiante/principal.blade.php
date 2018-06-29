@@ -6,7 +6,7 @@ Alumno
 
 @section('menu')
 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{route('estudiante')}}">
           <i class="fa fa-graduation-cap"></i>
           <span class="nav-link-text">Estudiante</span>
         </a>
@@ -19,21 +19,21 @@ Alumno
         </a>
         <ul class="sidenav-second-level collapse" id="collapseComponents">
           <li>
-            <a href="navbar.html">Cambio Grupo</a>
+          <a href="{{route('cambio-grupo.crear')}}">Cambio Grupo</a>
           </li>
           <li>
-            <a href="cards.html">Denuncia</a>
+            <a href="{{route('denuncia.crear')}}">Denuncia</a>
           </li>
-          <li><a href="">Inscripcion extemporanea</a></li>
-          <li><a href="">Memoria de servicio social</a></li>
-          <li><a href="">Peticiones especiales</a></li>
-          <li><a href="">Prorroga egresado</a></li>
-          <li><a href="">Retiro de ciclo</a></li>
-          <li><a href="">Retiro de materias</a></li>
+          <li><a href="{{route('inscripcion-extemporanea.crear')}}">Inscripcion extemporanea</a></li>
+          <li><a href="{{route('memoria-social.crear')}}">Memoria de servicio social</a></li>
+        <li><a href="{{route('especiales.crear')}}">Peticiones especiales</a></li>
+          <li><a href="{{route('prorroga.crear')}}">Prorroga egresado</a></li>
+          <li><a href="{{route('retiro-ciclo.crear')}}">Retiro de ciclo</a></li>
+          <li><a href="{{route('retiro-materia.crear')}}">Retiro de materias</a></li>
         </ul>
       </li>
          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consulta">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('consulta-estudiante')}}">
           <i class="fa fa-fw fa-book"></i>
           <span class="nav-link-text">Consulta de peticiones</span>
         </a>

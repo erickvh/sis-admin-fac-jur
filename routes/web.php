@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('estudiante.inscripcion-extemporanea');
+    return 'nada aqui';
 });
 
 Auth::routes();
@@ -34,7 +34,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::group(["prefix"=>"estudiante"],function() {
-/**
+    Route::get('/',function(){
+        return view('estudiante.principal');
+    })->name('estudiante');
+ /**
  * Rutas cambio grupo
  */
     Route::get('cambio-grupo/crear','SolicitudEstudianteController@cambioGrupoCrear')
@@ -63,7 +66,7 @@ Route::group(["prefix"=>"estudiante"],function() {
     Route::get('memoria-s-social/crear','SolicitudEstudianteController@memoriaSocialCrear')
     ->name('memoria-social.crear');
 
-    Route::post('memoria-s-social'.'SolicitudEstudianteController@memoriaSocialStore')
+    Route::post('memoria-s-social','SolicitudEstudianteController@memoriaSocialStore')
     ->name('memoria-social.store');
 
 /**
@@ -78,7 +81,7 @@ Route::group(["prefix"=>"estudiante"],function() {
  */
     Route::get('prorroga-egresado/crear','SolicitudEstudianteController@prorrogaEgresadoCrear')
     ->name('prorroga.crear');
-    Route::post('prorroga-egresado','SolicitudEstudianteController@prorrograEgresadoStore')
+    Route::post('prorroga-egresado','SolicitudEstudianteController@prorrogaEgresadoStore')
     ->name('prorroga.store');
 /**
  * Rutas retiro de ciclo
