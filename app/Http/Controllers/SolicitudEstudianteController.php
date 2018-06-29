@@ -3,20 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SolicitudEstudianteController extends Controller
 {
+
+    /**
+     * Estados posibles de una peticion
+     * @var int
+     */
+    protected $aunNoRevisado = 1;
+
     /**
      * CONTRALADORES PETICIONES CAMBIO GRUPO
      */
 
     public function cambioGrupoCrear(){
-        return view('estudiante.cambio-grupo');
+        $user = Auth::user();
+        $persona = $user->persona;
+        $materias = $user->persona->carrera->materias;
+        return view('estudiante.cambio-grupo', [
+            'persona'    =>  $persona,
+            'materias'   =>  $materias,
+        ]);
     }
 
 
     public function cambioGrupoStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
+            'grupoActual' => 'required|min:1|max:3|numeric',
+            'grupoDeseado' => 'required|min:1|max:3|numeric|different:grupoActual',
+            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/'
+        ]);
+
+
     }
 
 

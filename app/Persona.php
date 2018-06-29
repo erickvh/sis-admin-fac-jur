@@ -11,4 +11,14 @@ class Persona extends Model
     protected $fillable = [
       'carnet', 'nombre', 'apellido', 'dui', 'fechaNacimiento', 'sexo', 'carreraId',
     ];
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'personaId');
+    }
+
+    public function carrera()
+    {
+        return $this->belongsTo('App\Carrera', 'carreraId');
+    }
 }

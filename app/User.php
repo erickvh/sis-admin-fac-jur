@@ -44,4 +44,14 @@ class User extends Authenticatable
 
         $this->save();
     }
+
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona', 'personaId');
+    }
+
+    public function solicituds()
+    {
+        return $this->hasMany('App\Solicitud', 'userId');
+    }
 }
