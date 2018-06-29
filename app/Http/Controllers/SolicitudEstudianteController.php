@@ -176,7 +176,14 @@ class SolicitudEstudianteController extends Controller
      * CONTROLADORES CONSULTA ESTUDIANTE
      */
     public function consultaIndex(){
-        return view('estudiante.consulta');
+        $user = Auth::user();
+        $solicitudes = $user->solicituds;
+     
+
+        return view('estudiante.consulta',[
+            'persona'=>$persona,
+            'solicitudes'=>$solicitudes
+            ]);
     }
 
 
