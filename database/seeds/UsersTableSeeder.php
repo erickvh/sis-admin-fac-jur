@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
             [
             'nombreUsuario'=>'Marvin Martinez',
             'email'=>'aa12345@ues.edu.sv',
-            'password'=>'holamundo',
+            'password'=>bcrypt('holamundo'),
             'habilitado'=>true,
             'token'=>'asasadasfasfasfasa',
             'remember_token'=>'asafafafasfas',
@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
                 [
                 'nombreUsuario'=>'Marvin Alejandro',
                 'email'=>'aa54321@ues.edu.sv',
-                'password'=>'holamundo',
+                'password'=>bcrypt('holamundo'),
                 'habilitado'=>true,
                 'token'=>'asasadasfasfasfasa',
                 'remember_token'=>'asafafafasfas',
