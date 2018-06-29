@@ -6,17 +6,17 @@
     {{csrf_field()}}
         <div class="form-group">
           <label for="nombre">Nombre completo</label>
-          <input class="form-control" id="nombre" type="text"  readonly>
+          <input class="form-control" id="nombre" type="text" value="{{$persona->nombre}}, {{$persona->apellido}}" readonly>
         </div>
         <div class="form-group">
           <div class="form-row">
             <div class="col-md-6">
               <label for="Carnet">Carnet</label>
-              <input class="form-control" id="carnet" type="text" readonly>
+            <input class="form-control" id="carnet" type="text" value={{$persona->carnet}} readonly>
             </div>
             <div class="col-md-6">
               <label for="exampleConfirmPassword">Email</label>
-              <input class="form-control" id="email" type="text" readonly>
+              <input class="form-control" id="email" type="text" value={{Auth::user()->email}} readonly>
 
             </div>
           </div>

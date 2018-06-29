@@ -6,17 +6,17 @@
     {{csrf_field()}}
         <div class="form-group">
           <label for="nombre">Nombre completo</label>
-          <input class="form-control" id="nombre" type="text"  readonly>
+          <input class="form-control" id="nombre" type="text" value="{{$persona->nombre}}, {{$persona->apellido}}"  readonly>
         </div>
         <div class="form-group">
           <div class="form-row">
             <div class="col-md-6">
               <label for="Carnet">Carnet</label>
-              <input class="form-control" id="carnet" type="text" readonly>
+              <input class="form-control" id="carnet" type="text" value="{{$persona->carnet}}" readonly>
             </div>
             <div class="col-md-6">
               <label for="exampleConfirmPassword">Email</label>
-              <input class="form-control" id="email" type="text" readonly>
+            <input class="form-control" id="email" type="text" value={{Auth::user()->email}} readonly>
 
             </div>
           </div>
@@ -50,38 +50,34 @@
                 <div class="col-md-3">
                   <label for="materia">Materia</label>
                   <select class="form-control" name="materia1">
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
+                @foreach($materias as $materia)
+                    <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
+                @endforeach
                   </select>
                 </div>
                 <div class="col-md-3">
                   <label for="materia">Materia</label>
                   <select class="form-control" name="materia2">
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
+                @foreach($materias as $materia)
+                    <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
+                @endforeach
                   </select>
                 </div>
                 <div class="col-md-3">
                   <label for="materia">Materia</label>
                   <select class="form-control" name="materia3">
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
-                    <option value="">a</option>
+                @foreach($materias as $materia)
+                    <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
+                @endforeach
                   </select>
                 </div>
 
                                   <div class="col-md-3">
                                     <label for="materia">Materia</label>
                                     <select class="form-control" name="materia4">
-                                      <option value="">a</option>
-                                      <option value="">a</option>
-                                      <option value="">a</option>
-                                      <option value="">a</option>
+                                  @foreach($materias as $materia)
+                                      <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
+                                  @endforeach
                                     </select>
                                   </div>
               </div>

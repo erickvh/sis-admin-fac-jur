@@ -46,7 +46,14 @@ class SolicitudEstudianteController extends Controller
      * CONTRALADORES PETICIONES DENUNCIA
      */
     public function denunciaCrear(){
-        return view('estudiante.denuncia');
+        $user = Auth::user();
+        $persona = $user->persona;
+       
+
+
+        return view('estudiante.denuncia',[
+            'persona'=>$persona
+            ]);
     }
 
 
@@ -57,7 +64,14 @@ class SolicitudEstudianteController extends Controller
      *CONTROLADORES PETICIONES INSCRIPCION
      */
     public function inscripcionCrear(){
-        return view('estudiante.inscripcion-extemporanea');
+        $user = Auth::user();
+        $persona = $user->persona;
+        $materias = $user->persona->carrera->materias;
+
+        return view('estudiante.inscripcion-extemporanea',[
+            'persona'=>$persona,
+            'materias'=>$materias
+            ]);
     }
 
 
@@ -70,7 +84,10 @@ class SolicitudEstudianteController extends Controller
      *CONTROLADORES PETICIONES MEMORIA SOCIAL CREAR
      */
     public function memoriaSocialCrear(){
-        return view('estudiante.memoria');
+        $user = Auth::user();
+        $persona = $user->persona;
+
+        return view('estudiante.memoria',['persona'=>$persona]);
     }
 
 
@@ -82,7 +99,14 @@ class SolicitudEstudianteController extends Controller
      * CONTROLADORES PETICIONES PETICIONES ESPECIALES
      */
     public function peticionEspecialCrear(){
-        return view('estudiante.peticiones-especiales');
+        $user = Auth::user();
+        $persona = $user->persona;
+       
+
+        return view('estudiante.peticiones-especiales',[
+            'persona'=>$persona,
+        
+            ]);
     }
 
 
@@ -93,7 +117,14 @@ class SolicitudEstudianteController extends Controller
      *CONTROLADORES PETICIONES PRORRORAGRA EGRESADO
      */
     public function prorrogaEgresadoCrear(){
-        return view('estudiante.prorroga-egresado');
+        $user = Auth::user();
+        $persona = $user->persona;
+       
+
+        return view('estudiante.prorroga-egresado',[
+            'persona'=>$persona,
+        
+            ]);
     }
 
 
@@ -107,7 +138,13 @@ class SolicitudEstudianteController extends Controller
      * CONTROLADORES PETICIONES RETIRO CICLO
      */
     public function retiroCicloCrear(){
-        return view('estudiante.retiro-ciclo');
+        $user = Auth::user();
+        $persona = $user->persona;
+       
+        return view('estudiante.retiro-ciclo',[
+            'persona'=>$persona,
+        
+            ]);
     }
 
 
@@ -119,7 +156,13 @@ class SolicitudEstudianteController extends Controller
      * CONTROLADORES PETICIONES RETIRO MATERIA
      */
     public function retiroMateriaCrear(){
-        return view('estudiante.retiro-materia');
+        $user = Auth::user();
+        $persona = $user->persona;
+        $materias = $user->persona->carrera->materias;
+        return view('estudiante.retiro-materia',[
+            'persona'=>$persona,
+            'materias'=>$materias
+            ]);
     }
 
 
