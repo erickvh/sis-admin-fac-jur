@@ -32,7 +32,7 @@ class SolicitudEstudianteController extends Controller
     public function cambioGrupoStore(Request $request){
         $this->validate($request, [
             'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
-            'grupoActual' => 'required|min:1|max:3|numeric',
+            'grupoActual' => 'required|min:1|max:3|numeric|different:grupoDeseado',
             'grupoDeseado' => 'required|min:1|max:3|numeric|different:grupoActual',
             'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'ciclo' => 'max:1|min:|regex:/^[12]$/',
@@ -58,7 +58,10 @@ class SolicitudEstudianteController extends Controller
         $pivote->materiaId = $materia->id;
         $pivote->save();
 
-        return $this->cambioGrupoCrear();
+        $user = Auth::user();
+        $persona = $user->persona;
+        $materias = $user->persona->carrera->materias;
+        return redirect('estudiante/cambio-grupo/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona)->with('materias', $materias);
     }
 
 
