@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\DetalleSolicitud;
+use App\DetalleSolicitudMateria;
+use App\Estado;
+use App\Materia;
+use App\Solicitud;
+use App\TipoSolicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SolicitudEstudianteController extends Controller
 {
-
-    /**
-     * Estados posibles de una peticion
-     * @var int
-     */
-    protected $aunNoRevisado = 1;
 
     /**
      * CONTRALADORES PETICIONES CAMBIO GRUPO
@@ -32,12 +32,36 @@ class SolicitudEstudianteController extends Controller
     public function cambioGrupoStore(Request $request){
         $this->validate($request, [
             'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
-            'grupoActual' => 'required|min:1|max:3|numeric',
+            'grupoActual' => 'required|min:1|max:3|numeric|different:grupoDeseado',
             'grupoDeseado' => 'required|min:1|max:3|numeric|different:grupoActual',
-            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/'
+            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'ciclo' => 'max:1|min:|regex:/^[12]$/',
         ]);
 
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => TipoSolicitud::all()[0]->id,
+        ]);
 
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->telefono = $request['telefono'];
+        $detalle->justificacion = $request['justificacion'];
+        $detalle->save();
+
+        $materia = Materia::find($request['materia']);
+        $pivote = new DetalleSolicitudMateria() ;
+        $pivote->grupoActual = $request['grupoActual'];
+        $pivote->grupoDeseado = $request['grupoDeseado'];
+        $pivote->detalleSolicitudId = $detalle->id;
+        $pivote->materiaId = $materia->id;
+        $pivote->save();
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        $materias = $user->persona->carrera->materias;
+        return redirect('estudiante/cambio-grupo/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona)->with('materias', $materias);
     }
 
 

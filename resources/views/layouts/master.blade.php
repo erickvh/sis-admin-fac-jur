@@ -87,8 +87,12 @@
           </div>
 
           <div class="modal-footer">
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  {{ csrf_field() }}
+              </form>
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-            <a class="btn btn-primary" href="login.html">Cerrar sesión</a>
+            <a class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
+                     document.getElementById('logout-form').submit();">Cerrar sesión</a>
           </div>
         </div>
       </div>
