@@ -2,8 +2,13 @@
 
 @section('content')
 <h1>Formulario de denuncias</h1>
-<form action="{{route('denuncia.store')}}" method="POST">
+<form action="{{route('denuncia.store')}}" method="POST" enctype="multipart/form-data">
 {{csrf_field()}}
+    @if(session('status'))
+        <div class="alert alert-info">
+            {{session('status')}}
+        </div>
+    @endif
     <div class="form-group">
       <label for="nombre">Nombre completo</label>
     <input class="form-control" id="nombre" type="text" value="{{$persona->nombre}}, {{$persona->apellido}}" readonly>
@@ -23,14 +28,18 @@
     </div>
 
     <div>
-            <div class="form-group">
-                    <label for="exampleInputFile">Anexe su archivo</label>
-                    <input type="file" name="anexo" class="form-control-file" id="anexo" aria-describedby="fileHelp">
-                    <small id="fileHelp" class="form-text text-muted">formato de archivo .pdf</small>
-
-                  </div>
+            <div class="form-group{{ $errors->has('anexo') ? ' has-error' : '' }}">
+                <label for="exampleInputFile">Anexe sus archivos</label>
+                <input type="file" name="anexo[]" class="form-control" multiple/>
+                <small id="fileHelp" class="form-text text-muted">formato de archivo .pdf</small>
+                @if ($errors->has('anexo'))
+                    <span class="help-block">
+                <strong>{{ $errors->first('anexo') }}</strong>
+                    </span>
+                @endif
+            </div>
     </div>
-        <button type="submit" class="btn btn-primary btn-block">Enviar Petición</a>
+    <button type="submit" class="btn btn-primary btn-block">Enviar Petición</button>
     
   </form>
 

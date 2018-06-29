@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Anexo;
 use App\DetalleSolicitud;
 use App\DetalleSolicitudMateria;
 use App\Estado;
@@ -82,7 +83,35 @@ class SolicitudEstudianteController extends Controller
 
 
     public function denunciaStore(Request $request){
-        return 'proceso data';
+        $this->validate($request, [
+            'anexo' => 'required|max:2018'
+        ]);
+
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => 2,
+        ]);
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+        $user = Auth::user();
+        $persona = $user->persona;
+        return redirect('estudiante/denuncia/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
     /**
      *CONTROLADORES PETICIONES INSCRIPCION
