@@ -2,8 +2,13 @@
 
 @section('content')
 <h1>Formulario inscripción extemporanea</h1>
-<form action="{{route('inscripcion-extemporanea.store')}}" method="POST">
+<form action="{{route('inscripcion-extemporanea.store')}}" method="POST" enctype="multipart/form-data">
     {{csrf_field()}}
+    @if(session('status'))
+        <div class="alert alert-info">
+            {{session('status')}}
+        </div>
+    @endif
         <div class="form-group">
           <label for="nombre">Nombre completo</label>
         <input class="form-control" id="nombre" type="text" value="{{$persona->nombre}}, {{$persona->apellido}}" readonly>
@@ -22,24 +27,38 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
             <div class="form-row">
                 <div class="col-md-4">
                     <label for="telefono">Telefono</label>
-                    <input class="form-control" id="telefono" type="text" name="telefono"  placeholder="Numero de telefono">
+                    <input class="form-control" id="telefono" type="text" name="telefono" value="{{ old('telefono') }}" autofocus required maxlength="9"   placeholder="Numero de telefono" onkeyup="guion();">
+                    @if ($errors->has('telefono'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('telefono') }}</strong>
+                    </span>
+                    @endif
                   </div>
               <div class="col-md-4">
                 <label for="ciclo">Ciclo</label>
                 <select class="form-control" name="ciclo">
                   <option value="1">Ciclo I</option>
                   <option value="2">Ciclo II</option>
-
                 </select>
+                  @if ($errors->has('ciclo'))
+                      <span class="help-block">
+                <strong>{{ $errors->first('ciclo') }}</strong>
+                    </span>
+                  @endif
               </div>
 
               <div class="col-md-4">
                     <label for="anio">Año</label>
-                    <input class="form-control" id="anio" name="anio" type="number" min="2018"  placeholder="Año">
+                    <input class="form-control" id="anio" name="anio" type="number" min="2018" value="{{ old('anio') }}" required  placeholder="Año">
+                  @if ($errors->has('anio'))
+                      <span class="help-block">
+                <strong>{{ $errors->first('anio') }}</strong>
+                    </span>
+                  @endif
               </div>
             </div>
           </div>
@@ -51,54 +70,95 @@
                   <label for="materia">Materia</label>
 
                   <select class="form-control" name="materia1">
+                      <option value="">-----------------</option>
                     @foreach($materias as $materia)
                     <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
                     @endforeach
                   </select>
+                    @if ($errors->has('materia1'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('materia1') }}</strong>
+                    </span>
+                    @endif
                 </div>
                 <div class="col-md-3">
                   <label for="materia">Materia</label>
                   <select class="form-control" name="materia2">
+                      <option value="0">-----------------</option>
                     @foreach($materias as $materia)
                     <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
                     @endforeach
                   </select>
+                    @if ($errors->has('materia2'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('materia2') }}</strong>
+                    </span>
+                    @endif
                 </div>
                 <div class="col-md-3">
                   <label for="materia">Materia</label>
                   <select class="form-control" name="materia3">
+                      <option value="0">-----------------</option>
                     @foreach($materias as $materia)
                     <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
                     @endforeach
                   </select>
+                    @if ($errors->has('materia3'))
+                        <span class="help-block">
+                <strong>{{ $errors->first('materia3') }}</strong>
+                    </span>
+                    @endif
                 </div>
 
                                   <div class="col-md-3">
                                     <label for="materia">Materia</label>
                                     <select class="form-control" name="materia4">
+                                        <option value="0">-----------------</option>
                                       @foreach($materias as $materia)
                                       <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
                                       @endforeach
                                     </select>
+                                      @if ($errors->has('materia4'))
+                                          <span class="help-block">
+                <strong>{{ $errors->first('materia4') }}</strong>
+                    </span>
+                                      @endif
                                   </div>
               </div>
             </div>
             <div class="form-group">
-                    <label for="exampleInputFile">Anexe su archivo</label>
-                    <input type="file" name="anexo" class="form-control-file" id="anexo" aria-describedby="fileHelp">
+                    <label for="exampleInputFile">Anexe sus constancias:</label>
+                    <input type="file" name="anexo[]" class="form-control-file" required multiple id="anexo" aria-describedby="fileHelp">
+                @if ($errors->has('anexo'))
+                    <span class="help-block">
+                <strong>{{ $errors->first('anexo') }}</strong>
+                    </span>
+                @endif
                     <small id="fileHelp" class="form-text text-muted">formato de archivo .pdf</small>
 
                   </div>
 
           <div class="form-group">
               <label for="justificacion">Justificación</label>
-              <textarea class="form-control" id="justificacion" name="justificacion" rows="3"></textarea>
+              <textarea class="form-control" id="justificacion" name="justificacion" required  rows="5">{{ old('justificacion') }}</textarea>
+              @if ($errors->has('justificacion'))
+                  <span class="help-block">
+                <strong>{{ $errors->first('justificacion') }}</strong>
+                    </span>
+              @endif
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Enviar Petición</a>
+    <button type="submit" class="btn btn-primary btn-block">Enviar Petición</button>
 
       </form>
 
             </div>
-
+<script>
+    function guion() {
+        var telefono = document.getElementById('telefono');
+        if(telefono.value.length == 4){
+            telefono.value += '-';
+        }
+    }
+</script>
 @endsection
