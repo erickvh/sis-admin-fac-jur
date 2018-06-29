@@ -16,7 +16,7 @@ class CreateAnexosTable extends Migration
         Schema::create('Anexos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombreOriginal', 75);
-            $table->string('ruta', '250');
+            $table->string('ruta', '250')->unique();
 
             $table->integer('detalleSolicitudId')->unsigned();
             $table->foreign('detalleSolicitudId')->references('id')->on('DetalleSolicituds');
