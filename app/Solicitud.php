@@ -24,7 +24,7 @@ class Solicitud extends Model
 
     public function tipoSolicitud()
     {
-        return $this->belongsTo('App\Solicitud', 'tipoSolicitudId');
+        return $this->belongsTo('App\TipoSolicitud', 'tipoSolicitudId');
     }
 
     public function detalleSolicitud()

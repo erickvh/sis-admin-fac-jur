@@ -7,6 +7,7 @@
     <!--Table head-->
     <thead>
         <tr>
+            <th>Codigo</th>
             <th>Tipo solicitud</th>
             <th>Fecha de solicitud</th>
             <th>Estado de solicitud</th>
@@ -17,12 +18,15 @@
 
     <!--Table body-->
     <tbody>
+        @foreach($solicitudes as $solicitud)
         <tr>
-            <th>Prorrogra egresado</th>
-            <td>10/10/2019</td>
-            <td>En espera</td>
-            <td><a href="{{route('consulta-estudiante.show',1)}}" type="button" class="btn btn-primary btn-rounded btn-sm my-0">Mostrar</a></td>
+            <td>{{$solicitud->tipoSolicitud->codigoTipoSolicitud}}</td>
+            <td>{{$solicitud->tipoSolicitud->nombreTipoSolicitud}}</th>
+            <td>{{$solicitud->created_at}}</td>
+            <td>{{$solicitud->estado->nombreEstado}}</td>
+            <td><a href="{{route('consulta-estudiante.show',$solicitud->id)}}" type="button" class="btn btn-primary btn-rounded btn-sm my-0">Mostrar</a></td>
         </tr>
+        @endforeach
         <tr>
 
         </tr>

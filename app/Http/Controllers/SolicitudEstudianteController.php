@@ -201,6 +201,7 @@ class SolicitudEstudianteController extends Controller
      */
     public function consultaIndex(){
         $user = Auth::user();
+        $persona=$user->persona;
         $solicitudes = $user->solicituds;
      
 
@@ -212,7 +213,26 @@ class SolicitudEstudianteController extends Controller
 
 
     public function consultaShow($id){
-        return view("estudiante.consulta-show",["id"=>$id]);
+        $user=Auth::user();
+        $persona=$user->persona;
+        $solicitudes=$user->solicituds;
+
+        foreach ($solicitudes as $solicitud)
+        {
+            if($solicitud->id==$id)
+            {
+                $solicitudShow=$solicitud;
+                break;
+            }
+        }
+
+
+        
+
+
+
+
+        return view("estudiante.consulta-show",["solicitud"=>$solicitudShow]);
     }
 
 

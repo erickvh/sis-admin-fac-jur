@@ -52,6 +52,26 @@ class TipoSolicitudesTableSeeder extends Seeder
                         'codigoTipoSolicitud'=>"ES08",
                         'nombreTipoSolicitud'=>"Retiro materia"
                     ]);
-                        
+
+                    TipoSolicitud::create(
+                        [
+                            'codigoTipoSolicitud'=>"DO01",
+                            'nombreTipoSolicitud'=>"Licencia de incapacidad"
+                        ]);
+                    TipoSolicitud::create(
+                        [
+                            'codigoTipoSolicitud'=>"DO02",
+                            'nombreTipoSolicitud'=>"Denuncia contra estudiantes"
+                        ]);
+                    TipoSolicitud::create(
+                         [
+                            'codigoTipoSolicitud'=>"DO03",
+                            'nombreTipoSolicitud'=>"Reclasificación academica"
+                        ]);
+                        TipoSolicitud::create(
+                            [
+                                'codigoTipoSolicitud'=>"OT04",
+                                'nombreTipoSolicitud'=>"Peticiones otros"
+                            ]);
     }
 }
