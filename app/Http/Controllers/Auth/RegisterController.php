@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Carrera;
 use App\Persona;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -44,6 +45,16 @@ class RegisterController extends Controller
     }
 
     /**
+     * Retornar el formulario de registro
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        $carreras = Carrera::all();
+        return view('auth.register')->with('carreras', $carreras);
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -53,7 +64,13 @@ class RegisterController extends Controller
     {
         $data['email'] = strtolower($data['email']);
         return Validator::make($data, [
+            'nombre' => 'required|string|max:60|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'apellido' => 'required|string|max:60|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'dui' => 'max:10|regex:/^[0-9]{8}-[0-9]{1}$/',
             'email' => 'required|string|email|min:18|max:18|unique:users|regex:/^[a-zA-Z]{2}[78901]{1}[0-9]{4}@ues.edu.sv$/',
+            'nacimiento' => 'required|date|before:2003-01-01',
+            'sexo' => 'required|min:1|max:1|regex:/^[FM]$/',
+            'password' => 'required|min:5|max:25|confirmed',
         ]);
     }
 
@@ -70,10 +87,17 @@ class RegisterController extends Controller
 
         $persona = Persona::create([
             'carnet' => $carnet,
+            'nombre' => strtoupper($data['nombre']),
+            'apellido' => strtoupper($data['apellido']),
+            'dui' => $data['dui'],
+            'fechaNacimiento' => $data['nacimiento'],
+            'sexo' => $data['sexo'],
+            'carreraId' => $data['carrera'],
         ]);
         $usuario = User::create([
           'email' => $correo,
           'personaId' => $persona->id,
+            'password' => bcrypt($data['password']),
         ]);
 
         $dates = array('token' => $usuario->token);
@@ -99,5 +123,12 @@ class RegisterController extends Controller
 
 
         return back()->with('status', 'Revisa la bandeja de entrada o la bandeja de spam de tu Correo Institucional.');
+    }
+
+    public function confirmEmail($token)
+    {
+        User::whereToken($token)->firstOrFail()->Verified();
+
+        return redirect('login')->with('status', 'Cuenta Verificada con Exito. Inicia Sesión para continuar');
     }
 }

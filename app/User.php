@@ -36,4 +36,12 @@ class User extends Authenticatable
             $user->remember_token = str_random(60);
         });
     }
+
+    public function Verified()
+    {
+        $this->habilitado = 1;
+        $this->token = null;
+
+        $this->save();
+    }
 }
