@@ -11,7 +11,7 @@ class SolicitudDocenteController extends Controller
      */
 
     public function licenciaCrear(){
-        return 'aqui debe ir formulario licencia de incapacidad';
+        return view('docente.licencia');
     }
 
 
@@ -24,7 +24,7 @@ class SolicitudDocenteController extends Controller
      */
 
     public function misionOficialCrear(){
-        return 'aqui debe ir formulario mision oficial';
+        return view('docente.misiones');
     }
 
 
@@ -36,7 +36,7 @@ class SolicitudDocenteController extends Controller
      */
 
     public function denunciaCrear(){
-        return 'aqui debe ir formulario mision oficial';
+        return view('docente.denuncia');
     }
 
 
@@ -49,7 +49,7 @@ class SolicitudDocenteController extends Controller
      */
 
     public function reclasificacionCrear(){
-        return 'aqui debe ir formulario reclasificacion';
+        return view('docente.reclasificacion');
     }
 
 
@@ -62,7 +62,7 @@ class SolicitudDocenteController extends Controller
      */
 
     public function peticionEspecialCrear(){
-        return 'aqui debe ir el formulario peticiones especiales';
+        return view('docente.peticiones');
     }
 
 
@@ -75,12 +75,13 @@ class SolicitudDocenteController extends Controller
      * CONTROLADORES CONSULTA ESTUDIANTE
      */
     public function consultaIndex(){
-        return 'aqui debe desplegarse la consulta de peticiones hechas';
+        return view('docente.consulta');
     }
 
 
     public function consultaShow($id){
-        return 'aqui debe ir la peticion selecion '.$id;
+        
+        return view('docente.consulta-show',["id"=>$id]);
     }        
 
 

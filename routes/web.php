@@ -117,6 +117,9 @@ Route::group(["prefix"=>"estudiante"],function() {
 
 
 Route::group(["prefix"=>"docente"],function() {
+    Route::get("",function(){
+        return view("docente.principal");
+    })->name('docente');
   /**
  * Rutas licencia incapacidad
  */
