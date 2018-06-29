@@ -3,7 +3,6 @@
 @section('content')
 <form action="{{route('cambio-grupo.store')}}" method="POST">
 {{csrf_field()}}
-
     <div class="form-group">
       <label for="nombre">Nombre completo</label>
       <input class="form-control" id="nombre" type="text" value="{{ $persona->nombre }} , {{ $persona->apellido }}" readonly>

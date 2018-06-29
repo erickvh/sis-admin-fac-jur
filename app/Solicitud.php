@@ -8,6 +8,10 @@ class Solicitud extends Model
 {
     protected $table = 'Solicituds';
 
+    protected $fillable = [
+        'estadoId', 'userId', 'tipoSolicitudId'
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\User', 'userId');
