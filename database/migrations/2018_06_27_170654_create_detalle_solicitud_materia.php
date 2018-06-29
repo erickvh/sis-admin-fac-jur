@@ -17,7 +17,7 @@ class CreateDetalleSolicitudMateria extends Migration
             $table->increments('id');
             $table->char('grupoActual', 4);
             $table->char('grupoDeseado', 4);
-            $table->integer('matricula');
+            $table->integer('matricula')->nullable();
 
             $table->integer('materiaId')->unsigned();
             $table->foreign('materiaId')->references('id')->on('Materias');
