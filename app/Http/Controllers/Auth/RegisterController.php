@@ -97,8 +97,9 @@ class RegisterController extends Controller
         $usuario = User::create([
           'email' => $correo,
           'personaId' => $persona->id,
-            'password' => bcrypt($data['password']),
+           'password' => bcrypt($data['password']),
         ]);
+        $usuario->assignRole(1);
 
         $dates = array('token' => $usuario->token);
         $this->Email($dates, $correo);
