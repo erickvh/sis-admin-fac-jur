@@ -245,23 +245,24 @@ class SolicitudEstudianteController extends Controller
         $user=Auth::user();
         $persona=$user->persona;
         $solicitudes=$user->solicituds;
-
+        
         foreach ($solicitudes as $solicitud)
         {
             if($solicitud->id==$id)
-            {
+            {   
                 $solicitudShow=$solicitud;
+
                 break;
             }
         }
 
-
+        return view("estudiante.consulta-show",["solicitud"=>$solicitudShow]);
         
 
 
 
 
-        return view("estudiante.consulta-show",["solicitud"=>$solicitudShow]);
+
     }
 
 
