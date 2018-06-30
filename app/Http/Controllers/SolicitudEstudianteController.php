@@ -19,7 +19,8 @@ class SolicitudEstudianteController extends Controller
      * CONTRALADORES PETICIONES CAMBIO GRUPO
      */
 
-    public function cambioGrupoCrear(){
+    public function cambioGrupoCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
         $materias = $user->persona->carrera->materias;
@@ -30,11 +31,12 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    public function cambioGrupoStore(Request $request){
+    public function cambioGrupoStore(Request $request)
+    {
         $this->validate($request, [
             'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
-            'grupoActual' => 'required|min:1|max:3|numeric|different:grupoDeseado',
-            'grupoDeseado' => 'required|min:1|max:3|numeric|different:grupoActual',
+            'grupoActual' => 'required|numeric|different:grupoDeseado',
+            'grupoDeseado' => 'required|numeric|different:grupoActual',
             'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'ciclo' => 'max:1|min:|regex:/^[12]$/',
         ]);
@@ -70,7 +72,8 @@ class SolicitudEstudianteController extends Controller
     /**
      * CONTRALADORES PETICIONES DENUNCIA
      */
-    public function denunciaCrear(){
+    public function denunciaCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
        
@@ -82,7 +85,8 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    public function denunciaStore(Request $request){
+    public function denunciaStore(Request $request)
+    {
         $this->validate($request, [
             'anexo' => 'required|max:2018'
         ]);
@@ -116,7 +120,8 @@ class SolicitudEstudianteController extends Controller
     /**
      *CONTROLADORES PETICIONES INSCRIPCION
      */
-    public function inscripcionCrear(){
+    public function inscripcionCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
         $materias = $user->persona->carrera->materias;
@@ -128,7 +133,8 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    public function inscripcionStore(Request $request){
+    public function inscripcionStore(Request $request)
+    {
         $this->validate($request, [
             'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
             'ciclo' => 'required|max:1|min:1|regex:/^[12]$/',
@@ -207,7 +213,8 @@ class SolicitudEstudianteController extends Controller
     /**
      *CONTROLADORES PETICIONES MEMORIA SOCIAL CREAR
      */
-    public function memoriaSocialCrear(){
+    public function memoriaSocialCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
 
@@ -216,7 +223,43 @@ class SolicitudEstudianteController extends Controller
 
 
     public function memoriaSocialStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'fechaInicio' => 'required|date|after:2018-01-01',
+            'fechaFin' => 'required|date|after:fechaInicio',
+            'jefe' => 'required|max:75|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'anexo' => 'required|max:2018',
+        ]);
+
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => 4,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->fechaInicio = $request['fechaInicio'];
+        $detalle->fechaFinalizacion = $request['fechaFin'];
+        $detalle->nombreJefeProSocial = $request['jefe'];
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        return redirect('estudiante/memoria-s-social/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
 
     /**
