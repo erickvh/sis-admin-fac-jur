@@ -429,7 +429,7 @@ class SolicitudEstudianteController extends Controller
             }
         }
 
-        return view("estudiante.consulta-show",["solicitud"=>$solicitudShow]);
+        return view("estudiante.consulta-show",["solicitud"=>$solicitudShow,"id"=>$id]);
         
 
 
