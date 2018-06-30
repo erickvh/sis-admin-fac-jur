@@ -38,7 +38,7 @@ class SolicitudEstudianteController extends Controller
             'grupoActual' => 'required|numeric|different:grupoDeseado',
             'grupoDeseado' => 'required|numeric|different:grupoActual',
             'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
-            'ciclo' => 'max:1|min:|regex:/^[12]$/',
+            'ciclo' => 'regex:/^[12]$/',
         ]);
 
         $solicitud = Solicitud::create([
@@ -222,7 +222,8 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    public function memoriaSocialStore(Request $request){
+    public function memoriaSocialStore(Request $request)
+    {
         $this->validate($request, [
             'fechaInicio' => 'required|date|after:2018-01-01',
             'fechaFin' => 'required|date|after:fechaInicio',
@@ -265,7 +266,8 @@ class SolicitudEstudianteController extends Controller
     /**
      * CONTROLADORES PETICIONES PETICIONES ESPECIALES
      */
-    public function peticionEspecialCrear(){
+    public function peticionEspecialCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
        
@@ -277,7 +279,8 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    public function peticionEspecialStore(Request $request){
+    public function peticionEspecialStore(Request $request)
+    {
         $this->validate($request, [
             'anexo' => 'required|max:2018',
         ]);
@@ -313,7 +316,8 @@ class SolicitudEstudianteController extends Controller
     /**
      *CONTROLADORES PETICIONES PRORRORAGRA EGRESADO
      */
-    public function prorrogaEgresadoCrear(){
+    public function prorrogaEgresadoCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
        
@@ -325,8 +329,33 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    public function prorrogaEgresadoStore(Request $request){
-        return 'proceso de data';
+    public function prorrogaEgresadoStore(Request $request)
+    {
+        $this->validate($request, [
+            'ciclo' => 'required|max:1|min:1|regex:/^[12]$/',
+            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'anio' => 'required|numeric|min:2018',
+            'fechaFin' => 'required|date|before:today',
+        ]);
+
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => 6,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->ciclo = $request['ciclo'];
+        $detalle->anio = $request['anio'];
+        $detalle->fechaFinalizacion = $request['fechaFin'];
+        $detalle->justificacion = $request['justificacion'];
+        $detalle->save();
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        return redirect('estudiante/prorroga-egresado/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
 
 
