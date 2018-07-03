@@ -12,6 +12,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        /*
         User::create(
             [
             'nombreUsuario'=>'Marvin Martinez',
@@ -35,5 +36,6 @@ class UsersTableSeeder extends Seeder
                 'personaId'=>'2'
                 ]
                 );
+                */
     }
 }

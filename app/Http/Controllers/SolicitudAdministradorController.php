@@ -23,7 +23,8 @@ class SolicitudAdministradorController extends Controller
      * CONTROLADORES CONSULTA DOCENTE PETICIONES
      */
     public function consultaDocenteIndex(){
-        return view('administracion.consulta-docente');
+        $solicitudes=Solicitud::where('tipoSolicitudId','>=',9)->where('tipoSolicitudId','<=',13)->get();
+        return view('administracion.consulta-docente',['solicitudes'=>$solicitudes]);
     }
 
 
@@ -35,24 +36,27 @@ class SolicitudAdministradorController extends Controller
      * CONTROLADORES CONSULTA ESTUDIANTE PETICIONES
      */
     public function consultaEstudianteIndex(){
-        
-        return view('administracion.consulta-estudiante');
+        $solicitudes=Solicitud::where('tipoSolicitudId','>=',1)->where('tipoSolicitudId','<=',8)->get();
+        return view('administracion.consulta-estudiante',['solicitudes'=>$solicitudes]);
     }
 
 
     public function consultaEstudianteShow($id){
-        return view('administracion.consulta-estudiante-show');
+        $solicitud=Solicitud::find($id);
+        return view('administracion.consulta-estudiante-show',['solicitud'=>$solicitud]);
     }    
 
     /**
      * CONTROLADORES CONSULTA OTROS PETICIONES
      */
     public function consultaOtroIndex(){
-        return view('administracion.consulta-otro');
+        $solicitudes=Solicitud::where('tipoSolicitudId','>=',14)->get();
+        return view('administracion.consulta-otro',['solicitudes'=>$solicitudes]);
     }
 
 
     public function consultaOtroShow($id){
+
         return view('administracion.consulta-otro-show');
     }        
 

@@ -12,6 +12,7 @@ class PersonaTableSeeder extends Seeder
      */
     public function run()
     {
+     /*
         Persona::create(
             [
              'carnet'=>'aa12345',
@@ -41,7 +42,7 @@ class PersonaTableSeeder extends Seeder
                 ]
                 );
                 
-
+*/
                                     
     }
 }

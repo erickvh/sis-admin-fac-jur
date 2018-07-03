@@ -12,6 +12,7 @@ class SolicitudTableSeeder extends Seeder
      */
     public function run()
     {
+        /*
         Solicitud::create(
             [
                 'estadoId'    => 1,
@@ -26,5 +27,6 @@ class SolicitudTableSeeder extends Seeder
                     'tipoSolicitudId'=>2
                   ]
                 );
+                */
     }
 }

@@ -10,6 +10,7 @@
             <th>Tipo solicitud</th>
             <th>Fecha de solicitud</th>
             <th>Estado de solicitud</th>
+            <th>Solicitado por </th>
             <th>Mostrar mas</th>
         </tr>
     </thead>
@@ -20,10 +21,12 @@
         @foreach($solicitudes as $solicitud)
         <tr>
             <td>{{$solicitud->tipoSolicitud->codigoTipoSolicitud}}</td>
+            
             <td>{{$solicitud->tipoSolicitud->nombreTipoSolicitud}}</th>
             <td>{{$solicitud->created_at}}</td>
             <td>{{$solicitud->estado->nombreEstado}}</td>
-            <td><a href="{{route('consulta-estudiante.show',$solicitud->id)}}" type="button" class="btn btn-primary btn-rounded btn-sm my-0">Mostrar</a></td>
+            <td>{{$solicitud->user->persona->nombre .' '. $solicitud->user->persona->apellido}}</td>
+            <td><a href="{{route('admin-docente.show',$solicitud->id)}}" type="button" class="btn btn-primary btn-rounded btn-sm my-0">Mostrar</a></td>
         </tr>
         @endforeach
         <tr>

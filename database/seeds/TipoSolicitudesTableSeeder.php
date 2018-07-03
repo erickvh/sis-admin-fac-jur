@@ -58,16 +58,26 @@ class TipoSolicitudesTableSeeder extends Seeder
                             'codigoTipoSolicitud'=>"DO01",
                             'nombreTipoSolicitud'=>"Licencia de incapacidad"
                         ]);
+                TipoSolicitud::create(
+                            [
+                                'codigoTipoSolicitud'=>"DO02",
+                                'nombreTipoSolicitud'=>"Misiones oficiales"
+                            ]);
                     TipoSolicitud::create(
                         [
-                            'codigoTipoSolicitud'=>"DO02",
+                            'codigoTipoSolicitud'=>"DO03",
                             'nombreTipoSolicitud'=>"Denuncia contra estudiantes"
                         ]);
                     TipoSolicitud::create(
                          [
-                            'codigoTipoSolicitud'=>"DO03",
+                            'codigoTipoSolicitud'=>"DO04",
                             'nombreTipoSolicitud'=>"Reclasificación academica"
                         ]);
+                        TipoSolicitud::create(
+                            [
+                               'codigoTipoSolicitud'=>"DO05",
+                               'nombreTipoSolicitud'=>"Peticiones Oficiales"
+                           ]);
                         TipoSolicitud::create(
                             [
                                 'codigoTipoSolicitud'=>"OT04",
