@@ -53,7 +53,7 @@ class SolicitudDocenteController extends Controller
     }
 
 
-    public function reclasificacionlStore(Request $request){
+    public function reclasificacionStore(Request $request){
         return 'proceso de data';
     }
     

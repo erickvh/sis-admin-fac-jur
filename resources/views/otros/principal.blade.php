@@ -4,19 +4,19 @@ Bienvenido
 @endsection
 
 @section('menu')
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-        <a class="nav-link" href="index.html">
+<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuario">
+        <a class="nav-link" href="#">
           <i class="fa fa-user"></i>
-          <span class="nav-link-text">Otro Usuario</span>
+          <span class="nav-link-text">Usuario</span>
         </a>
       </li>
-                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consulta">
-        <a class="nav-link" href="#">
+      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear solicitud">
+      <a class="nav-link" href="">
           <i class="fa fa-fw fa-file"></i>
           <span class="nav-link-text">Crear solicitud</span>
         </a>
       </li>
-              <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consulta">
+      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consulta">
         <a class="nav-link" href="#">
           <i class="fa fa-fw fa-book"></i>
           <span class="nav-link-text">Consultar peticiones</span>

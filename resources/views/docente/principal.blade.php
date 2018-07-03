@@ -4,14 +4,14 @@ Docente
 @endsection
 
 @section('menu')
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Docente">
         <a class="nav-link" href=""{{route('docente')}}"">
           <i class="fa fa-leanpub"></i>
           <span class="nav-link-text">Docente</span>
         </a>
       </li>
 
-           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Solicitudes">
         <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
           <i class="fa fa-fw fa-file"></i>
                     <span class="nav-link-text">Solicitudes</span>

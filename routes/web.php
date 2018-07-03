@@ -179,6 +179,10 @@ Route::group(["prefix"=>"administracion"],function() {
 /**
  * rutas crear usuarios
  */
+    Route::get('/',function(){
+            return view('administracion.principal');       
+    })->name('administracion');
+
     Route::get('registro-user/crear','SolicitudAdministradorController@registroUserCrear')
     ->name('registo.crear')->middleware('permission:registo.crear');
     Route::post('registro-user','SolicitudAdministradorController@registroUserStore')
@@ -222,11 +226,17 @@ Route::group(["prefix"=>"administracion"],function() {
 
 
 Route::group(["prefix"=>"otros"],function() {
- /**
- * Rutas licencia incapacidad
+Route::get('/', function () {
+    return view('otros.principal');
+    })->name('otros');
+
+    /**
+ * Rutas peticiones
  */
     Route::get('peticion/crear','SolicitudOtrosController@peticionCrear')
     ->name('peticion.crear')->middleware('permission:');
+    
+    
     Route::post('peticion','SolicitudOtrosController@peticionStore')
     ->name('peticion.store')->middleware('permission:');
 
@@ -235,6 +245,7 @@ Route::group(["prefix"=>"otros"],function() {
  */
     Route::get('consulta-otros','SolicitudOtrosController@consultaIndex')
     ->name('consulta-otros')->middleware('permission:');
+    
     Route::get('consulta-otros/{id}','SolicitudOtrosController@consultaShow')
     ->name('consulta-otros.show')->middleware('permission:');
 
