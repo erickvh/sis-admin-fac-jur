@@ -29,7 +29,8 @@ class SolicitudAdministradorController extends Controller
 
 
     public function consultaDocenteShow($id){
-        return view('administracion.consulta-docente-show');
+        $solicitud=Solicitud::find($id);
+        return view('administracion.consulta-docente-show',['solicitud'=>$solicitud]);
     }    
     
     /**
@@ -56,8 +57,8 @@ class SolicitudAdministradorController extends Controller
 
 
     public function consultaOtroShow($id){
-
-        return view('administracion.consulta-otro-show');
+        $solicitud=Solicitud::find($id);
+        return view('administracion.consulta-otro-show',['solicitud'=>$solicitud]);
     }        
 
 }

@@ -11,13 +11,13 @@ Bienvenido
         </a>
       </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Crear solicitud">
-      <a class="nav-link" href="">
+      <a class="nav-link" href="{{route('peticion.crear')}}">
           <i class="fa fa-fw fa-file"></i>
           <span class="nav-link-text">Crear solicitud</span>
         </a>
       </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Consulta">
-        <a class="nav-link" href="#">
+      <a class="nav-link" href="{{route('consulta-otros')}}">
           <i class="fa fa-fw fa-book"></i>
           <span class="nav-link-text">Consultar peticiones</span>
         </a>
