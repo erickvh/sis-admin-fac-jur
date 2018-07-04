@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Auth;
 class SolicitudDocenteController extends Controller
 {
     private $incapacidad = 9;
-    private $denunciaCEstu = 10;
-    private $reclasificacion = 11;
-    private $petiOtros = 12;
+    private $misionOficial=10;
+    private $denunciaCEstu = 11;
+    private $reclasificacion = 12;
+    private $petiOtros = 13;
 
     /**
      * CONTRALADORES PETICIONES LICENCIA INCAPACIDAD
@@ -84,10 +85,10 @@ class SolicitudDocenteController extends Controller
         ]);
 
 
-        /*$solicitud = Solicitud::create([
+        $solicitud = Solicitud::create([
             'userId' => Auth::id(),
             'estadoId' => Estado::all()[0]->id,
-            'tipoSolicitudId' => $this->incapacidad,
+            'tipoSolicitudId' => $this->misionOficial,
         ]);
 
         $detalle = new DetalleSolicitud();
@@ -107,7 +108,7 @@ class SolicitudDocenteController extends Controller
             $anexo->ruta = $generado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
-        }*/
+        }
 
         $user = Auth::user();
         $persona = $user->persona;
@@ -188,12 +189,14 @@ class SolicitudDocenteController extends Controller
      * CONTROLADORES CONSULTA ESTUDIANTE
      */
     public function consultaIndex(){
-        return view('docente.consulta');
+        $user=Auth::user();
+        $solicitudes=$user->solicituds;  
+        return view('docente.consulta',['solicitudes'=>$solicitudes]);
     }
 
 
     public function consultaShow($id){
-        
+      
         return view('docente.consulta-show',["id"=>$id]);
     }        
 
