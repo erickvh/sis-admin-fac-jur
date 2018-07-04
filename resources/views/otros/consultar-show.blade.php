@@ -1,5 +1,30 @@
 @extends('otros.principal')
 
 @section('content')
+<h3>Asunto: {{$solicitud->detalleSolicitud->justificacion?? 'no disponible'}} </h3>
+
+<table class="table table-hover">
+
+        <tbody>
+          <tr>
+            <td><b>Fecha de peticion:<b></td>
+          <td>{{$solicitud->created_at}}</td>
+        
+            <td><b>Estado Actual:</b></td>
+         <td>{{$solicitud->estado->nombreEstado}}</td>
+        </tr>     
+        <tr>
+            <td colspan="4" align=center><b>Archivos</b></td>
+        </tr>
+        <tr>
+       <td colspan="4">
+            @foreach ($solicitud->detalleSolicitud->anexos as $anexo)
+       <a href="{{Storage::url($anexo->ruta)}}" target="_blank">{{$anexo->nombreOriginal}}</a>
+               @endforeach 
+        </td>
+
+    </tr>
+          </tbody>
+        </table>
 
 @endsection

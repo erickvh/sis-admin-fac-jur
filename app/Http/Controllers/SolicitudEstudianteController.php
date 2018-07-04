@@ -111,13 +111,11 @@ class SolicitudEstudianteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -171,13 +169,11 @@ class SolicitudEstudianteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -255,13 +251,11 @@ class SolicitudEstudianteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -306,13 +300,11 @@ class SolicitudEstudianteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -409,13 +401,11 @@ class SolicitudEstudianteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -470,13 +460,11 @@ class SolicitudEstudianteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }

@@ -50,13 +50,11 @@ class SolicitudDocenteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -99,13 +97,11 @@ class SolicitudDocenteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -142,13 +138,11 @@ class SolicitudDocenteController extends Controller
 
         $files = $request->file('anexo');
         foreach ($files as $file) {
-            $filename = $file->getClientOriginalName();
-            $generado = str_random(25) . $filename;
-            \Storage::disk('local')->put($generado,  \File::get($file));
+            $guardado=$file->store('public');
 
             $anexo = new Anexo();
-            $anexo->nombreOriginal = $filename;
-            $anexo->ruta = $generado;
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
             $anexo->detalleSolicitudId = $detalle->id;
             $anexo->save();
         }
@@ -196,8 +190,8 @@ class SolicitudDocenteController extends Controller
 
 
     public function consultaShow($id){
-      
-        return view('docente.consulta-show',["id"=>$id]);
+        $solicitud=Solicitud::find($id);
+        return view('docente.consulta-show',["solicitud"=>$solicitud]);
     }        
 
 

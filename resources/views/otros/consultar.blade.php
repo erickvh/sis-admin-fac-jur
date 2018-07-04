@@ -1,4 +1,4 @@
-@extends("estudiante.principal")
+@extends("otros.principal")
 
 @section('content')
 <h2>Consulta de sus peticiones</h2>
@@ -7,8 +7,7 @@
     <!--Table head-->
     <thead>
         <tr>
-            <th>Codigo</th>
-            <th>Tipo solicitud</th>
+            <th>Asunto</th>
             <th>Fecha de solicitud</th>
             <th>Estado de solicitud</th>
             <th>Mostrar mas</th>
@@ -20,8 +19,7 @@
     <tbody>
         @foreach($solicitudes as $solicitud)
         <tr>
-            <td>{{$solicitud->tipoSolicitud->codigoTipoSolicitud}}</td>
-            <td>{{$solicitud->tipoSolicitud->nombreTipoSolicitud}}</th>
+            <td>{{ $solicitud->detalleSolicitud->justificacion?? 'no hay asunto' }}</td>
             <td>{{$solicitud->created_at}}</td>
             <td>{{$solicitud->estado->nombreEstado}}</td>
             <td><a href="{{route('consulta-otros.show',$solicitud->id)}}" type="button" class="btn btn-primary btn-rounded btn-sm my-0">Mostrar</a></td>
