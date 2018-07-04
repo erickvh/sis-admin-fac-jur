@@ -17,6 +17,10 @@
   <link href="{{asset("css/bootstrap/datatables/dataTables.bootstrap4.css")}}" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="{{asset("css/sb-admin.css")}}" rel="stylesheet">
+
+  <style>
+    .has-error .checkbox,.has-error .checkbox-inline,.has-error.checkbox-inline label,.has-error.checkbox label,.has-error .control-label,.has-error .help-block,.has-error .radio,.has-error .radio-inline,.has-error.radio-inline label,.has-error.radio label{color:#a94442}.has-error .form-control{border-color:#a94442;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075)}.has-error .form-control:focus{border-color:#843534;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483;box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #ce8483}.has-error .input-group-addon{color:#a94442;border-color:#a94442;background-color:#f2dede}.has-error .form-control-feedback{color:#a94442}
+  </style>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">

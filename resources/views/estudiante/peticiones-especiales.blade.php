@@ -28,9 +28,9 @@
           </div>
       
           <div>
-                  <div class="form-group{{ $errors->has('enexo') ? ' has-error' : '' }}">
+                  <div class="form-group{{ $errors->has('anexo') ? ' has-error' : '' }}">
                           <label for="exampleInputFile">Anexe su archivo</label>
-                          <input type="file" name="anexo[]" class="form-control-file" id="anexo" required multiple aria-describedby="fileHelp">
+                          <input type="file" name="anexo[]" class="form-control" id="anexo" required multiple aria-describedby="fileHelp">
                       @if ($errors->has('anexo'))
                           <span class="help-block">
                 <strong>{{ $errors->first('anexo') }}</strong>
