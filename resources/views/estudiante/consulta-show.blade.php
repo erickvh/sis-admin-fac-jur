@@ -30,7 +30,9 @@
               <tr>
               <td colspan="4" align=center>{{$solicitud->detalleSolicitud->justificacion?? 'Informacion no necesaria'}}</td>             
                   
-               </tr>
+          </tr>
+
+               @if(count($solicitud->detalleSolicitud->materias)>0)
                <tr>
                 <td colspan="4" align=center><b>Materias<b></td>             
 
@@ -42,6 +44,10 @@
                     @endforeach 
                 </td>   
             </tr>
+            @endif
+            
+            @if(App\DetalleSolicitudMateria::where('detalleSolicitudId',$solicitud->detalleSolicitud->id)->first())
+            <tr>
             <tr>
                     <td colspan="4" align=center><b>Grupos Teorico<b>
 
@@ -51,11 +57,13 @@
                 </tr>
                 <tr>
                   <td colspan="4" align=center>
-                    <p>Grupo actual: {{App\DetalleSolicitudMateria::find($id)->grupoActual?? 'informacion no necesaria'}}</p>
-                    <p>Grupo deseado: {{App\DetalleSolicitudMateria::find($id)->grupoDeseado?? 'informacion no necesaria'}}</p> 
+                    <p>Grupo actual:  {{ App\DetalleSolicitudMateria::where('detalleSolicitudId',$solicitud->detalleSolicitud->id)->first()->grupoActual}}</p>
+                    <p>Grupo deseado: {{App\DetalleSolicitudMateria::where('detalleSolicitudId',$solicitud->detalleSolicitud->id)->first()->grupoDeseado}}</p> 
                   </td>
                 </tr>
-                <tr>
+                </tr>
+             @endif
+                
                     
                         <td colspan="4">
                             @foreach ($solicitud->detalleSolicitud->anexos as $anexo)

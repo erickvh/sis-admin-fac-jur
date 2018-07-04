@@ -1,6 +1,6 @@
 @extends('administracion.principal')
 @section('content')
-<h2>Consulta de sus peticiones</h2>
+<h2>Consulta de peticiones estudiantes</h2>
 <table class="table table-striped table-responsive-md btn-table">
 
     <!--Table head-->

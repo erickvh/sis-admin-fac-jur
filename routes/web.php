@@ -234,20 +234,20 @@ Route::get('/', function () {
  * Rutas peticiones
  */
     Route::get('peticion/crear','SolicitudOtrosController@peticionCrear')
-    ->name('peticion.crear')->middleware('permission:');
+    ->name('peticion.crear')->middleware('permission:peticion.crear');
     
     
     Route::post('peticion','SolicitudOtrosController@peticionStore')
-    ->name('peticion.store')->middleware('permission:');
+    ->name('peticion.store')->middleware('permission:peticion.crear');
 
   /**
  * rutas consultar peticion otros
  */
     Route::get('consulta-otros','SolicitudOtrosController@consultaIndex')
-    ->name('consulta-otros')->middleware('permission:');
+    ->name('consulta-otros')->middleware('permission:consulta-otros');
     
     Route::get('consulta-otros/{id}','SolicitudOtrosController@consultaShow')
-    ->name('consulta-otros.show')->middleware('permission:');
+    ->name('consulta-otros.show')->middleware('permission:consulta-otros');
 
 });
 });
