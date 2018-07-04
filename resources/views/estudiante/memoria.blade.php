@@ -27,9 +27,9 @@
           </div>
         </div>
 
-        <div class="form-group{{ $errors->has('fechaFin') ? ' has-error' : '' }}">
+        <div class="form-group">
             <div class="form-row">
-                <div class="col-md-6">
+                <div class="col-md-6{{ $errors->has('fechaInicio') ? ' has-error' : '' }}">
                     <label for=fecha>Fecha inicio</label>
                     <input class="form-control" id="fechaInicio" type="date" name="fechaInicio" required value="{{ old('fechaInicio') }}">
                     @if ($errors->has('fechaInicio'))
@@ -39,7 +39,7 @@
                     @endif
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-6{{ $errors->has('fechaFin') ? ' has-error' : '' }}">
                     <label for=fecha>Fecha Fin</label>
                     <input class="form-control" id="fechaFin" type="date" name="fechaFin" required value="{{ old('fechaFin') }}">
                       @if ($errors->has('fechaFin'))
@@ -57,7 +57,7 @@
               <div class="col-md-6">
                 <div class="form-row">
                 <label for="name">Jefe de proyeccion social</label>
-                <input class="form-control" id="name" type="text" name="jefe" required value="{{ old('jefe') }}">
+                <input class="form-control" id="name" type="text" name="jefe" maxlength="75" required value="{{ old('jefe') }}" onkeypress="return valida(event)">
                     @if ($errors->has('jefe'))
                         <span class="help-block">
                 <strong>{{ $errors->first('jefe') }}</strong>
@@ -69,7 +69,7 @@
 
             <div class="form-group{{ $errors->has('anexo') ? ' has-error' : '' }}">
                     <label for="exampleInputFile">Anexe su archivo</label>
-                    <input type="file" name="anexo[]" class="form-control-file" required multiple id="anexo" aria-describedby="fileHelp">
+                    <input type="file" name="anexo[]" class="form-control" required multiple id="anexo" aria-describedby="fileHelp">
                 @if ($errors->has('anexo'))
                     <span class="help-block">
                 <strong>{{ $errors->first('anexo') }}</strong>
@@ -84,6 +84,20 @@
 
       </form>
 
+<script>
+    function valida(e){
+        tecla = (document.all) ? e.keyCode : e.which;
 
+        //Tecla de retroceso para borrar, siempre la permite
+        if (tecla==8){
+            return true;
+        }
+
+        // Patron de entrada, en este caso solo acepta numeros
+        patron =/[a-zA-ZáéíóúÁÉÍÓÚñÑ ]/;
+        tecla_final = String.fromCharCode(tecla);
+        return patron.test(tecla_final);
+    }
+</script>
 
 @endsection

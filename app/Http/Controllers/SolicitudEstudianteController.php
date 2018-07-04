@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Auth;
 
 class SolicitudEstudianteController extends Controller
 {
+    private $cambioGrupo = 1;
+    private $denuncia = 2;
+    private $extemporanea = 3;
+    private $servicioSocial = 4;
+    private $especiales = 5;
+    private $egresado = 6;
+    private $retiroCiclo = 7;
+    private $retiroMateria = 8;
 
     /**
      * CONTRALADORES PETICIONES CAMBIO GRUPO
@@ -44,7 +52,7 @@ class SolicitudEstudianteController extends Controller
         $solicitud = Solicitud::create([
             'userId' => Auth::id(),
             'estadoId' => Estado::all()[0]->id,
-            'tipoSolicitudId' => TipoSolicitud::all()[0]->id,
+            'tipoSolicitudId' => $this->cambioGrupo,
         ]);
 
         $detalle = new DetalleSolicitud();
@@ -95,7 +103,7 @@ class SolicitudEstudianteController extends Controller
         $solicitud = Solicitud::create([
             'userId' => Auth::id(),
             'estadoId' => Estado::all()[0]->id,
-            'tipoSolicitudId' => 2,
+            'tipoSolicitudId' => $this->denuncia,
         ]);
         $detalle = new DetalleSolicitud();
         $detalle->solicitudId = $solicitud->id;
@@ -150,7 +158,7 @@ class SolicitudEstudianteController extends Controller
         $solicitud = Solicitud::create([
             'userId' => Auth::id(),
             'estadoId' => Estado::all()[0]->id,
-            'tipoSolicitudId' => 3,
+            'tipoSolicitudId' => $this->extemporanea,
         ]);
 
         $detalle = new DetalleSolicitud();
@@ -225,7 +233,7 @@ class SolicitudEstudianteController extends Controller
     public function memoriaSocialStore(Request $request)
     {
         $this->validate($request, [
-            'fechaInicio' => 'required|date|after:2018-01-01',
+            'fechaInicio' => 'required|date|before:today',
             'fechaFin' => 'required|date|after:fechaInicio',
             'jefe' => 'required|max:75|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
             'anexo' => 'required|max:2018',
@@ -235,7 +243,7 @@ class SolicitudEstudianteController extends Controller
         $solicitud = Solicitud::create([
             'userId' => Auth::id(),
             'estadoId' => Estado::all()[0]->id,
-            'tipoSolicitudId' => 4,
+            'tipoSolicitudId' => $this->servicioSocial,
         ]);
 
         $detalle = new DetalleSolicitud();
@@ -289,7 +297,7 @@ class SolicitudEstudianteController extends Controller
         $solicitud = Solicitud::create([
             'userId' => Auth::id(),
             'estadoId' => Estado::all()[0]->id,
-            'tipoSolicitudId' => 5,
+            'tipoSolicitudId' => $this->especiales,
         ]);
 
         $detalle = new DetalleSolicitud();
@@ -342,7 +350,7 @@ class SolicitudEstudianteController extends Controller
         $solicitud = Solicitud::create([
             'userId' => Auth::id(),
             'estadoId' => Estado::all()[0]->id,
-            'tipoSolicitudId' => 6,
+            'tipoSolicitudId' => $this->egresado,
         ]);
 
         $detalle = new DetalleSolicitud();
@@ -363,7 +371,8 @@ class SolicitudEstudianteController extends Controller
     /**
      * CONTROLADORES PETICIONES RETIRO CICLO
      */
-    public function retiroCicloCrear(){
+    public function retiroCicloCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
        
@@ -374,14 +383,54 @@ class SolicitudEstudianteController extends Controller
     }
 
 
-    public function retiroCicloStore(Request $request){
-        return 'proceso de data';
+    public function retiroCicloStore(Request $request)
+    {
+        $this->validate($request, [
+            'ciclo' => 'required|regex:/^[12]$/',
+            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+            'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
+            'anio' => 'required|numeric|min:2018',
+            'anexo' => 'required|max:2018'
+        ]);
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => $this->retiroCiclo,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->ciclo = $request['ciclo'];
+        $detalle->justificacion = $request['justificacion'];
+        $detalle->telefono = $request['telefono'];
+        $detalle->anio = $request['anio'];
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        return redirect('estudiante/retiro-ciclo/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
 
     /**
      * CONTROLADORES PETICIONES RETIRO MATERIA
      */
-    public function retiroMateriaCrear(){
+    public function retiroMateriaCrear()
+    {
         $user = Auth::user();
         $persona = $user->persona;
         $materias = $user->persona->carrera->materias;
@@ -393,7 +442,78 @@ class SolicitudEstudianteController extends Controller
 
 
     public function retiroMateriaStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'telefono' => 'required|min:9|max:9|regex:/^[762]{1}[0-9]{3}-[0-9]{4}$/',
+            'ciclo' => 'required|max:1|min:1|regex:/^[12]$/',
+            'anio' => 'required|numeric|min:2018|max:2019',
+            'materia1' => 'required|numeric|min:1',
+            'materia2' => 'numeric',
+            'materia3' => 'numeric',
+            'materia4' => 'numeric',
+            'anexo' => 'required|max:2018',
+            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        ]);
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => $this->retiroMateria,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->telefono = $request['telefono'];
+        $detalle->ciclo = $request['ciclo'];
+        $detalle->anio = $request['anio'];
+        $detalle->justificacion = $request['justificacion'];
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+
+        $materia = Materia::find($request['materia1']);
+        $pivote = new DetalleSolicitudMateria();
+        $pivote->detalleSolicitudId = $detalle->id;
+        $pivote->materiaId = $materia->id;
+        $pivote->save();
+
+        if($request['materia2'] != 0) {
+            $materia2 = Materia::find($request['materia2']);
+            $pivote = new DetalleSolicitudMateria();
+            $pivote->detalleSolicitudId = $detalle->id;
+            $pivote->materiaId = $materia2->id;
+            $pivote->save();
+        }
+        if($request['materia3'] != 0) {
+            $materia3 = Materia::find($request['materia3']);
+            $pivote = new DetalleSolicitudMateria();
+            $pivote->detalleSolicitudId = $detalle->id;
+            $pivote->materiaId = $materia3->id;
+            $pivote->save();
+        }
+        if($request['materia4'] != 0) {
+            $materia4 = Materia::find($request['materia4']);
+            $pivote = new DetalleSolicitudMateria();
+            $pivote->detalleSolicitudId = $detalle->id;
+            $pivote->materiaId = $materia4->id;
+            $pivote->save();
+        }
+
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        $materias = $user->persona->carrera->materias;
+        return redirect('estudiante/retiro-materia/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona)->with('materias', $materias);
     }
 
 

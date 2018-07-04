@@ -2,21 +2,67 @@
 
 namespace App\Http\Controllers;
 
+use App\Anexo;
+use App\DetalleSolicitud;
+use App\Estado;
+use App\Solicitud;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SolicitudDocenteController extends Controller
 {
+    private $incapacidad = 9;
+    private $denunciaCEstu = 10;
+    private $reclasificacion = 11;
+    private $petiOtros = 12;
+
     /**
      * CONTRALADORES PETICIONES LICENCIA INCAPACIDAD
      */
 
     public function licenciaCrear(){
-        return view('docente.licencia');
+        $user = Auth::user();
+        $persona = $user->persona;
+        return view('docente.licencia', ['persona' => $persona]);
     }
 
 
     public function licenciaStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'fechaInicio' => 'required|date|after:yesterday',
+            'fechaFin' => 'required|date|after:yesterday',
+            'anexo' => 'required|max:2018',
+        ]);
+
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => $this->incapacidad,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->fechaInicio = $request['fechaInicio'];
+        $detalle->fechaFinalizacion = $request['fechaFin'];
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        return redirect('docente/licencia-incapacidad/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }    
     
     /**
@@ -24,24 +70,91 @@ class SolicitudDocenteController extends Controller
      */
 
     public function misionOficialCrear(){
-        return view('docente.misiones');
+        $user = Auth::user();
+        $persona = $user->persona;
+        return view('docente.misiones', ['persona' => $persona]);
     }
 
 
     public function misionOficialStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'fechaInicio' => 'required|date|after:yesterday',
+            'fechaFin' => 'required|date|after:yesterday',
+            'anexo' => 'required|max:2018',
+        ]);
+
+
+        /*$solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => $this->incapacidad,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->fechaInicio = $request['fechaInicio'];
+        $detalle->fechaFinalizacion = $request['fechaFin'];
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }*/
+
+        $user = Auth::user();
+        $persona = $user->persona;
+        return redirect('docente/misiones-oficiales/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
     /**
      * CONTRALADORES PETICIONES DENUNCIAS CONTRA ESTUDIANTES
      */
 
     public function denunciaCrear(){
-        return view('docente.denuncia');
+        $user =  Auth::user();
+        $persona = $user->persona;
+        return view('docente.denuncia', ['persona' => $persona]);
     }
 
 
     public function denunciaStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'anexo' => 'required|max:2018',
+        ]);
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => $this->denunciaCEstu,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $generado = str_random(25) . $filename;
+            \Storage::disk('local')->put($generado,  \File::get($file));
+
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $filename;
+            $anexo->ruta = $generado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+
+        $user =  Auth::user();
+        $persona = $user->persona;
+        return redirect('docente/denuncias-c-estudiantes/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
 
     /**

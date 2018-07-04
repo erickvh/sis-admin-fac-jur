@@ -32,11 +32,11 @@
       </div>
     </div>
 
-    <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
+    <div class="form-group">
         <div class="form-row">
-          <div class="col-md-6">
+          <div class="col-md-6{{ $errors->has('telefono') ? ' has-error' : '' }}">
             <label for="telefono">Telefono</label>
-            <input class="form-control" id="telefono" type="text" name="telefono" value="{{ old('telefono') }}" maxlength="9" required placeholder="ingrese numero de telefono" onkeyup="guion()">
+            <input class="form-control" id="telefono" type="text" name="telefono" value="{{ old('telefono') }}" maxlength="9" required placeholder="ingrese numero de telefono" onkeyup="guion()" onkeypress="return valida(event)">
               @if ($errors->has('telefono'))
                   <span class="help-block">
                 <strong>{{ $errors->first('telefono') }}</strong>
@@ -47,16 +47,16 @@
             <label for="materia">Materia</label>
             <select class="form-control" name="materia">
                 @foreach($materias as $materia)
-                    <option value="{{ $materia->id }}">{{ $materia->nombreMateria }}</option>
+                    <option value="{{ $materia->id }}" {{ (old('materia')) == $materia->id ? " selected" : "" }}>{{ $materia->nombreMateria }}</option>
                 @endforeach
             </select>
           </div>
         </div>
       </div>
 
-      <div class="form-group{{ $errors->has('grupoActual') ? ' has-error' : '' }}">
+      <div class="form-group">
           <div class="form-row">
-            <div class="col-md-4">
+            <div class="col-md-4{{ $errors->has('grupoActual') ? ' has-error' : '' }}">
                 <label for="grupoActual">Numero grupo actual</label>
                 <input class="form-control" id="grupoActual" type="number" value="{{ old('grupoActual') }}" name="grupoActual" min="1" required placeholder="Numero grupo actual">
                 @if ($errors->has('grupoActual'))
@@ -65,9 +65,14 @@
             </span>
                 @endif
               </div>
-            <div class="col-md-4">
+            <div class="col-md-4{{ $errors->has('grupoDeseado') ? ' has-error' : '' }}">
                   <label for="grupoDeseado">Numero grupo deseado</label>
                   <input class="form-control" id="grupoDeseado" name="grupoDeseado" value="{{ old('grupoDeseado') }}" type="number" min="1" required placeholder="Numero grupo que desea">
+                @if ($errors->has('grupoDeseado'))
+                    <span class="help-block">
+                <strong>{{ $errors->first('grupoDeseado') }}</strong>
+            </span>
+                @endif
             </div>
           </div>
         </div>
@@ -90,6 +95,20 @@
             if(telefono.value.length == 4){
                 telefono.value += '-';
             }
+        }
+
+        function valida(e){
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla==8){
+                return true;
+            }
+
+            // Patron de entrada, en este caso solo acepta numeros
+            patron =/[0-9]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
         }
     </script>
 @endsection

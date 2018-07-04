@@ -26,18 +26,18 @@
           </div>
         </div>
       </div>
-      <div class="form-group{{ $errors->has('anio') ? ' has-error' : '' }}">
+      <div class="form-group">
           <div class="form-row">
                 <div class="col-md-4">
                         <label for="ciclo">Ciclo</label>
                         <select class="form-control" name="ciclo">
-                          <option value="1">Ciclo I</option>
-                          <option value="2">Ciclo II</option>
+                          <option value="1" {{ (old('ciclo') == 1 ? " selected" : "") }}>Ciclo I</option>
+                          <option value="2" {{ (old('ciclo') == 2 ? " selected" : "") }}>Ciclo II</option>
 
                         </select>
                       </div>
 
-                      <div class="col-md-4">
+                      <div class="col-md-4{{ $errors->has('anio') ? ' has-error' : '' }}">
                             <label for="anio">Año prorroga</label>
                             <input class="form-control" id="anio" name="anio" value="{{ old('anio') }}" required type="number" min="2018"  placeholder="Año">
                           @if ($errors->has('anio'))
@@ -49,9 +49,9 @@
 
           </div>
       </div>
-      <div class="form-group{{ $errors->has('fechaFin') ? ' has-error' : '' }}">
+      <div class="form-group">
           <div class="form-row">
-                <div class="col-md-4">
+                <div class="col-md-4{{ $errors->has('fechaFin') ? ' has-error' : '' }}">
                         <label for="ciclo">Fecha de finalizacion</label>
                         <input type="date" class="form-control" value="{{ old('fechaFin') }}" required name="fechaFin" value="">
                     @if ($errors->has('fechaFin'))
@@ -61,9 +61,9 @@
                     @endif
                       </div>
 
-                      <div class="col-md-8">
+                      <div class="col-md-8{{ $errors->has('justificacion') ? ' has-error' : '' }}">
                         <label for="justificacion">Justificación</label>
-                        <textarea class="form-control" id="justificacion" name="justificacion" rows="5" required>{{ old('justificacion') }}</textarea>
+                        <textarea class="form-control" id="justificacion" name="justificacion" required rows="5" >{{ old('justificacion') }}</textarea>
                           @if ($errors->has('justificacion'))
                               <span class="help-block">
                 <strong>{{ $errors->first('justificacion') }}</strong>
