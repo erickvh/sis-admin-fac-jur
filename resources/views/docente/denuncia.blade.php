@@ -3,11 +3,7 @@
  <h1>peticiones denuncia</h1>
  <form action="{{route('denuncias.store')}}" method="POST" enctype="multipart/form-data">
   {{csrf_field()}}
-     @if(session('status'))
-         <div class="alert alert-info">
-             {{session('status')}}
-         </div>
-     @endif
+     @include('partials.exito')
       <div class="form-group">
         <label for="nombre">Nombre completo</label>
         <input class="form-control" id="nombre" type="text" name='nombre' value="{{ $persona->nombre }}, {{ $persona->apellido }}" readonly>

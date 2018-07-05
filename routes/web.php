@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('register/confirm/{token}','Auth\RegisterController@confirmEmail');
+Route::get('registers/confirm/{token}','Auth\RegisterController@confirmEmails');
+Route::post('registers/confirm', 'Auth\RegisterController@confirmEmailss')->name('registers.confirm');
 
 Auth::routes();
 

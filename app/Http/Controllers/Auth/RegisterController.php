@@ -126,10 +126,42 @@ class RegisterController extends Controller
         return back()->with('status', 'Revisa la bandeja de entrada o la bandeja de spam de tu Correo Institucional.');
     }
 
+    //Alumnos
     public function confirmEmail($token)
     {
-        User::whereToken($token)->firstOrFail()->Verified();
+        try{
+            User::whereToken($token)->firstOrFail()->Verified();
 
-        return redirect('login')->with('status', 'Cuenta Verificada con Exito. Inicia Sesión para continuar');
+            return redirect('login')->with('status', 'Cuenta Verificada con Exito. Inicia Sesión para continuar');
+        }catch (\Exception $e){
+            return redirect('login');
+    }
+    }
+    //Otros
+    public function confirmEmails($token)
+    {
+        try{
+            User::whereToken($token)->firstOrFail();
+
+            return view('auth.date_complete')->with('token', $token);
+        }catch (\Exception $e){
+            return redirect('login');
+        }
+    }
+    //PROCESAR POST
+    public function confirmEmailss(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:5|max:25|confirmed',
+        ]);
+        try{
+            $user = User::whereToken($request['token'])->firstOrFail();
+            $user->password = bcrypt($request['password']);
+            $user->Verified();
+
+            return redirect('login')->with('status', 'Cuenta Verificada con Exito. Inicia Sesión para continuar');
+        }catch (\Exception $e){
+            return redirect('login');
+        }
     }
 }

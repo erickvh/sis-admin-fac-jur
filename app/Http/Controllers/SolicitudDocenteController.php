@@ -15,7 +15,8 @@ class SolicitudDocenteController extends Controller
     private $misionOficial=10;
     private $denunciaCEstu = 11;
     private $reclasificacion = 12;
-    private $petiOtros = 13;
+    private $petiOficiales = 13;
+    private $petiOtros = 14;
 
     /**
      * CONTRALADORES PETICIONES LICENCIA INCAPACIDAD
@@ -163,12 +164,37 @@ class SolicitudDocenteController extends Controller
      */
 
     public function reclasificacionCrear(){
-        return view('docente.reclasificacion');
+        $user = Auth::user();
+        $persona = $user->persona;
+        return view('docente.reclasificacion')->with('persona', $persona);
     }
 
 
     public function reclasificacionStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'nivelActual' => 'required|numeric|regex:/^[123]$/',
+            'nivelDeseado' => 'required|numeric|different:nivelActual|regex:/^[123]$/',
+            'fechaFin' => 'required|date|after:today',
+            'justificacion' => 'required|string|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ_-])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ_-]*)*)+$/',
+        ]);
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => $this->reclasificacion,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->nivelAcademicaActual = $request['nivelActual'];
+        $detalle->nivelAcademicaAspira = $request['nivelDeseado'];
+        $detalle->fechaFinalizacion = $request['fechaFin'];
+        $detalle->justificacion = $request['justificacion'];
+        $detalle->save();
+
+        $user =  Auth::user();
+        $persona = $user->persona;
+        return redirect('docente/reclasificacion/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
     
     /**
@@ -176,12 +202,40 @@ class SolicitudDocenteController extends Controller
      */
 
     public function peticionEspecialCrear(){
-        return view('docente.peticiones');
+        $user =  Auth::user();
+        $persona = $user->persona;
+        return view('docente.peticiones', ['persona' => $persona]);
     }
 
 
     public function peticionEspecialStore(Request $request){
-        return 'proceso de data';
+        $this->validate($request, [
+            'anexo' => 'required|max:2018',
+        ]);
+
+        $solicitud = Solicitud::create([
+            'userId' => Auth::id(),
+            'estadoId' => Estado::all()[0]->id,
+            'tipoSolicitudId' => $this->petiOficiales,
+        ]);
+
+        $detalle = new DetalleSolicitud();
+        $detalle->solicitudId = $solicitud->id;
+        $detalle->save();
+
+        $files = $request->file('anexo');
+        foreach ($files as $file) {
+            $guardado = $file->store('public');
+            $anexo = new Anexo();
+            $anexo->nombreOriginal = $file->getClientOriginalName();
+            $anexo->ruta = $guardado;
+            $anexo->detalleSolicitudId = $detalle->id;
+            $anexo->save();
+        }
+
+        $user =  Auth::user();
+        $persona = $user->persona;
+        return redirect('docente/peticiones-especiales/crear')->with('status', 'Peticion Enviada con exito')->with('persona', $persona);
     }
 
 
