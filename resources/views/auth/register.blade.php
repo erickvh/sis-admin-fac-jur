@@ -10,17 +10,13 @@
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
-                        @if(session('status'))
-                            <div class="alert alert-info">
-                                {{session('status')}}
-                            </div>
-                        @endif
+                        @include('partials.exito')
 
                         <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Nombre:</label>
 
                             <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" required autofocus placeholder="Ingrese sus nombres" maxlength="60">
+                                <input id="nombre" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" required autofocus placeholder="Ingrese sus nombres" maxlength="60" onkeypress="return validaC(event)">
 
                                 @if ($errors->has('nombre'))
                                     <span class="help-block">
@@ -34,7 +30,7 @@
                             <label for="apellido" class="col-md-4 control-label">Apellido:</label>
 
                             <div class="col-md-6">
-                                <input id="apellido" type="text" class="form-control" name="apellido" value="{{ old('apellido') }}" required placeholder="Ingrese sus apellidos" maxlength="60">
+                                <input id="apellido" type="text" class="form-control" name="apellido" value="{{ old('apellido') }}" required placeholder="Ingrese sus apellidos" maxlength="60" onkeypress="return validaC(event)">
 
                                 @if ($errors->has('apellido'))
                                     <span class="help-block">
@@ -50,7 +46,7 @@
                             <div class="col-md-6">
                                 <select name="carrera" class="form-control">
                                     @foreach($carreras as $carrera)
-                                        <option value="{{ $carrera->id }}">{{ $carrera->nombreCarrera }}</option>
+                                        <option value="{{ $carrera->id }}" {{ (old('carrera') == $carrera->id ? " selected" : "") }}>{{ $carrera->nombreCarrera }}</option>
                                     @endforeach
                                 </select>
 
@@ -66,7 +62,7 @@
                             <label for="dui" class="col-md-4 control-label">DUI:</label>
 
                             <div class="col-md-6">
-                                <input id="dui" type="text" class="form-control" name="dui" value="{{ old('dui') }}" placeholder="Ingrese DUI en caso de tenerlo" onkeyup="guion()" maxlength="10">
+                                <input id="dui" type="text" class="form-control" name="dui" value="{{ old('dui') }}" placeholder="Ingrese DUI en caso de tenerlo" onkeyup="guion()" onkeypress="return valida(event)" maxlength="10">
 
                                 @if ($errors->has('dui'))
                                     <span class="help-block">
@@ -109,8 +105,8 @@
 
                             <div class="col-md-6">
                                 <select name="sexo" class="form-control">
-                                    <option value="F">Femenino</option>
-                                    <option value="M">Masculino</option>
+                                    <option value="F" {{ (old('sexo') == 'F' ? " selected" : "") }}>Femenino</option>
+                                    <option value="M" {{ (old('sexo') == 'M' ? " selected" : "") }}>Masculino</option>
                                 </select>
 
                                 @if ($errors->has('sexo'))
@@ -162,6 +158,32 @@
             if(dui.value.length == 8){
                 dui.value = dui.value + '-';
             }
+        }
+        function valida(e){
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla==8){
+                return true;
+            }
+
+            // Patron de entrada, en este caso solo acepta numeros
+            patron =/[0-9]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
+        }
+        function validaC(e){
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla==8){
+                return true;
+            }
+
+            // Patron de entrada, en este caso solo acepta numeros
+            patron =/[a-zA-ZáéíóúÁÉÍÓÚñÑ ]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
         }
     </script>
 @endsection

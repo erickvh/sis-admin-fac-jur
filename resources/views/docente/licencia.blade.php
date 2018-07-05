@@ -3,11 +3,7 @@
     <h1>Licencia incapacidad</h1>
 <form action="{{route('licencia.store')}}" method="POST" enctype="multipart/form-data">
     {{csrf_field()}}
-    @if(session('status'))
-        <div class="alert alert-info">
-            {{session('status')}}
-        </div>
-    @endif
+    @include('partials.exito')
         <div class="form-group">
           <label for="nombre">Nombre completo</label>
           <input class="form-control" id="nombre" type="text" value="{{ $persona->nombre }}, {{ $persona->apellido }}" readonly>

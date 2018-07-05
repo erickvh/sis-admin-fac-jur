@@ -3,11 +3,7 @@
 @section('content')
     <form action="{{route('cambio-grupo.store')}}" method="POST">
 {{csrf_field()}}
-    @if(session('status'))
-        <div class="alert alert-info">
-            {{session('status')}}
-        </div>
-    @endif
+        @include('partials.exito')
     <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
       <label for="nombre">Nombre completo</label>
       <input class="form-control" id="nombre" type="text" value="{{ $persona->nombre }} , {{ $persona->apellido }}" readonly>
