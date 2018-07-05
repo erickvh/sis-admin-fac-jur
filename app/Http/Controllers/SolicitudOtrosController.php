@@ -38,6 +38,7 @@ class SolicitudOtrosController extends Controller
         $files = $request->file('anexo');
 
         foreach ($files as $file) {
+
             $guardado=$file->store('public');
 
             $anexo = new Anexo();

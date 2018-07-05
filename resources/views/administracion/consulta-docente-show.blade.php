@@ -52,7 +52,9 @@
                 <tr>
                 <td colspan="4">
                  @foreach ($solicitud->detalleSolicitud->anexos as $anexo)
+
                  <a href="{{Storage::url($anexo->ruta)}}" target="_blank">{{$anexo->nombreOriginal}}</a>
+
                    @endforeach 
                    </td>
 
